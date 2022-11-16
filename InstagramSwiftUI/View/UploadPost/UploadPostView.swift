@@ -9,15 +9,12 @@ import SwiftUI
 import PhotosUI
 
 struct UploadPostView: View {
-    @State private var selectedItem: PhotosPickerItem?
-    @State private var selectedImageData: Data?
-    @State private var captionText = ""
-    @State private var showingAlert = false
+    @StateObject var viewModel = UploadPostViewModel()
     
     var body: some View {
         VStack(spacing: 16) {
-            PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
-                if let selectedImageData,
+            PhotosPicker(selection: $viewModel.selectedItem, matching: .images, photoLibrary: .shared()) {
+                if let selectedImageData = viewModel.selectedImageData,
                    let uiImage = UIImage(data: selectedImageData) {
                         Image(uiImage: uiImage)
                             .resizable()
@@ -33,18 +30,18 @@ struct UploadPostView: View {
                         .foregroundColor(.black)
                 }
             }
-            .onChange(of: selectedItem) { newItem in
+            .onChange(of: viewModel.selectedItem) { newItem in
                 Task {
                     if let data = try? await newItem?.loadTransferable(type: Data.self) {
                         withAnimation {
-                            selectedImageData = data
+                            viewModel.selectedImageData = data
                         }
                     }
                 }
             }
             
-            if selectedImageData != nil {
-                TextField("Enter your caption...", text: $captionText)
+            if viewModel.selectedImageData != nil {
+                TextField("Enter your caption...", text: $viewModel.captionText)
                 
                 Spacer()
                 
@@ -61,7 +58,7 @@ struct UploadPostView: View {
                 }
                 
                 Button {
-                    showingAlert.toggle()
+                    viewModel.showingAlert.toggle()
                 } label: {
                     Text("Remove Draft")
                         .padding(.vertical)
@@ -70,12 +67,10 @@ struct UploadPostView: View {
                         .fontWeight(.semibold)
                         .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color.gray, lineWidth: 1))
                 }
-                .alert("Remove Draft", isPresented: $showingAlert) {
+                .alert("Remove Draft", isPresented: $viewModel.showingAlert) {
                     Button(role: .destructive) {
                         withAnimation {
-                            selectedItem = nil
-                            selectedImageData = nil
-                            captionText = ""
+                            viewModel.removeDraft()
                         }
                     } label: {
                         Text("Remove")
@@ -87,7 +82,7 @@ struct UploadPostView: View {
                 }
             }
             
-            if selectedImageData == nil {
+            if viewModel.selectedImageData == nil {
                 Spacer()
             }
         }

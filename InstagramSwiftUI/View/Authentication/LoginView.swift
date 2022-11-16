@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var email = ""
-    @State private var password = ""
-    @State private var showingAlert = false
-    @State private var errorMessage = ""
+    @StateObject var viewModel = LoginViewModel()
     
     var body: some View {
         NavigationStack {
@@ -32,8 +28,8 @@ struct LoginView: View {
                         .frame(maxWidth: 220)
                     
                     VStack(spacing: 16) {
-                            CustomTextField(value: $email, placeholder: "Email Address", isSecure: false)
-                            CustomTextField(value: $password, placeholder: "Password", isSecure: true)
+                        CustomTextField(value: $viewModel.email, placeholder: "Email Address", isSecure: false)
+                        CustomTextField(value: $viewModel.password, placeholder: "Password", isSecure: true)
                         
                         NavigationLink(destination: ResetPasswordView()) {
                             Text("Forgotten password?")
@@ -45,12 +41,7 @@ struct LoginView: View {
                         .padding(.bottom, 16)
                         
                         Button {
-                                authViewModel.login(withEmail: email, password: password) { error in
-                                    guard let error = error else { return }
-                                    
-                                    errorMessage = error
-                                    showingAlert.toggle()
-                                }
+                            viewModel.login()
                         } label: {
                             Text("Log In")
                                 .frame(maxWidth: .infinity, maxHeight: 20)
@@ -61,7 +52,7 @@ struct LoginView: View {
                                 .cornerRadius(10)
                         }
                         .buttonStyle(.plain)
-                        .disabled(email.isEmpty || password.isEmpty)
+                        .disabled(viewModel.disableLogin())
                     }
                     .padding(.horizontal)
                             
@@ -86,10 +77,10 @@ struct LoginView: View {
         }
         .font(.callout)
         .foregroundColor(.white)
-        .alert("Error", isPresented: $showingAlert) {
+        .alert("Error", isPresented: $viewModel.showingAlert) {
             Button("Close", role: .cancel) { }
         } message: {
-            Text(errorMessage)
+            Text(viewModel.errorMessage)
         }
     }
 }

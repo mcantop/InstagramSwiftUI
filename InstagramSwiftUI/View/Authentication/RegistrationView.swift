@@ -9,18 +9,9 @@ import SwiftUI
 import PhotosUI
 
 struct RegistrationView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @StateObject var viewModel = RegistrationViewModel()
     @Environment(\.dismiss) var dismiss
     @Namespace var animation
-    @State private var email = ""
-    @State private var password = ""
-    @State private var username = ""
-    @State private var fullname = ""
-    @State private var selectedOption: RegistrationViewModel = .account
-    @State private var selectedItem: PhotosPickerItem?
-    @State private var selectedUIImage: UIImage?
-    @State private var showingAlert = false
-    @State private var errorMessage = ""
     
     var body: some View {
         NavigationStack {
@@ -37,13 +28,13 @@ struct RegistrationView: View {
                         .multilineTextAlignment(.center)
                     
                     HStack(spacing: 0) {
-                        ForEach(RegistrationViewModel.allCases, id: \.rawValue) { option in
+                        ForEach(RegistrationOption.allCases, id: \.rawValue) { option in
                             VStack {
                                 Text(option.title.capitalized)
                                     .bold()
-                                    .foregroundColor(selectedOption == option ? .white : .white.opacity(0.75))
+                                    .foregroundColor(viewModel.selectedOption == option ? .white : .white.opacity(0.75))
                                 
-                                if selectedOption == option {
+                                if viewModel.selectedOption == option {
                                     Capsule()
                                         .foregroundColor(.white)
                                         .frame(height: 3)
@@ -57,20 +48,20 @@ struct RegistrationView: View {
                             }
                             .onTapGesture {
                                 withAnimation(.easeInOut) {
-                                    selectedOption = option
+                                    viewModel.selectedOption = option
                                 }
                             }
                         }
                     }
                     
-                    if selectedOption == .account {
+                    if viewModel.selectedOption == .account {
                         VStack(spacing: 16) {
-                            CustomTextField(value: $email, placeholder: "Email Address", isSecure: false)
-                            CustomTextField(value: $password, placeholder: "Password", isSecure: true)
+                            CustomTextField(value: $viewModel.email, placeholder: "Email Address", isSecure: false)
+                            CustomTextField(value: $viewModel.password, placeholder: "Password", isSecure: true)
                             
                             Button {
                                 withAnimation(.easeInOut) {
-                                    selectedOption = .profile
+                                viewModel.selectedOption = .profile
                                 }
                             } label: {
                                 Text("Next")
@@ -78,16 +69,16 @@ struct RegistrationView: View {
                                     .padding()
                                     .fontWeight(.semibold)
                                     .foregroundStyle(.blue)
-                                    .background(selectedOption == .account ? .white.opacity(0.75) : .white.opacity(0.0))
+                                    .background(viewModel.selectedOption == .account ? .white.opacity(0.75) : .white.opacity(0.0))
                                     .cornerRadius(10)
                             }
                             .buttonStyle(.plain)
-                            .disabled(email.isEmpty || password.isEmpty)
+                            .disabled(viewModel.disableNext())
                         }
                     } else {
                         VStack(spacing: 16) {
-                            PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
-                                if let selectedUIImage {
+                            PhotosPicker(selection: $viewModel.selectedItem, matching: .images, photoLibrary: .shared()) {
+                                if let selectedUIImage = viewModel.selectedUIImage {
                                     Image(uiImage: selectedUIImage)
                                         .resizable()
                                         .scaledToFill()
@@ -108,30 +99,22 @@ struct RegistrationView: View {
                                     }
                                 }
                             }
-                            .onChange(of: selectedItem) { newItem in
+                            .onChange(of: viewModel.selectedItem) { newItem in
                                 Task {
                                     if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                         withAnimation {
-                                            self.selectedUIImage = UIImage(data: data)
+                                            self.viewModel.selectedUIImage = UIImage(data: data)
                                         }
                                     }
                                 }
                             }
                             
-                            CustomTextField(value: $username, placeholder: "@username", isSecure: false)
-                            CustomTextField(value: $fullname, placeholder: "Fullname", isSecure: false)
+                            CustomTextField(value: $viewModel.username, placeholder: "@username", isSecure: false)
+                            CustomTextField(value: $viewModel.fullname, placeholder: "Fullname", isSecure: false)
                             
-                            Button {
-                                guard let image = selectedUIImage else { return }
-                                
+                            Button {                                
                                 withAnimation(.easeInOut) {
-                                    authViewModel.register(withEmail: email, password: password, username: username, fullname: fullname, image: image) { error in
-                                        guard let error = error else { return }
-                                        
-                                        errorMessage = error
-                                        
-                                        showingAlert.toggle()
-                                    }
+                                    viewModel.register()
                                 }
                             } label: {
                                 Text("Sign Up")
@@ -143,7 +126,7 @@ struct RegistrationView: View {
                                     .cornerRadius(10)
                             }
                             .buttonStyle(.plain)
-                            .disabled(email.isEmpty || password.isEmpty || username.isEmpty || fullname.isEmpty || selectedItem == nil)
+                            .disabled(viewModel.disableSignUp())
                         }
                     }
                             
@@ -183,10 +166,10 @@ struct RegistrationView: View {
 
             }
         }
-        .alert("Error", isPresented: $showingAlert) {
+        .alert("Error", isPresented: $viewModel.showingAlert) {
             Button("Close", role: .cancel) { }
         } message: {
-            Text(errorMessage)
+            Text(viewModel.errorMessage)
         }
     }
 }
