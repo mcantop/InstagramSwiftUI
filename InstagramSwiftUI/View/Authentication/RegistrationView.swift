@@ -19,6 +19,8 @@ struct RegistrationView: View {
     @State private var selectedOption: RegistrationViewModel = .account
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedUIImage: UIImage?
+    @State private var showingAlert = false
+    @State private var errorMessage = ""
     
     var body: some View {
         NavigationStack {
@@ -79,6 +81,8 @@ struct RegistrationView: View {
                                     .background(selectedOption == .account ? .white.opacity(0.75) : .white.opacity(0.0))
                                     .cornerRadius(10)
                             }
+                            .buttonStyle(.plain)
+                            .disabled(email.isEmpty || password.isEmpty)
                         }
                     } else {
                         VStack(spacing: 16) {
@@ -121,7 +125,13 @@ struct RegistrationView: View {
                                 guard let image = selectedUIImage else { return }
                                 
                                 withAnimation(.easeInOut) {
-                                    authViewModel.register(withEmail: email, password: password, username: username, fullname: fullname, image: image)
+                                    authViewModel.register(withEmail: email, password: password, username: username, fullname: fullname, image: image) { error in
+                                        guard let error = error else { return }
+                                        
+                                        errorMessage = error
+                                        
+                                        showingAlert.toggle()
+                                    }
                                 }
                             } label: {
                                 Text("Sign Up")
@@ -132,6 +142,8 @@ struct RegistrationView: View {
                                     .background(.white.opacity(0.75))
                                     .cornerRadius(10)
                             }
+                            .buttonStyle(.plain)
+                            .disabled(email.isEmpty || password.isEmpty || username.isEmpty || fullname.isEmpty || selectedItem == nil)
                         }
                     }
                             
@@ -171,11 +183,17 @@ struct RegistrationView: View {
 
             }
         }
+        .alert("Error", isPresented: $showingAlert) {
+            Button("Close", role: .cancel) { }
+        } message: {
+            Text(errorMessage)
+        }
     }
 }
 
 struct RegistrationView_Previews: PreviewProvider {
     static var previews: some View {
         RegistrationView()
+            .environmentObject(AuthViewModel())
     }
 }

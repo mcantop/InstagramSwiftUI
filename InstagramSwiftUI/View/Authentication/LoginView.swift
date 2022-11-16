@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct LoginView: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
     @State private var email = ""
     @State private var password = ""
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @State private var showingAlert = false
+    @State private var errorMessage = ""
     
     var body: some View {
         NavigationStack {
@@ -43,9 +45,12 @@ struct LoginView: View {
                         .padding(.bottom, 16)
                         
                         Button {
-                            withAnimation(.easeInOut) {
-                                authViewModel.login(withEmail: email, password: password)
-                            }
+                                authViewModel.login(withEmail: email, password: password) { error in
+                                    guard let error = error else { return }
+                                    
+                                    errorMessage = error
+                                    showingAlert.toggle()
+                                }
                         } label: {
                             Text("Log In")
                                 .frame(maxWidth: .infinity, maxHeight: 20)
@@ -55,6 +60,8 @@ struct LoginView: View {
                                 .background(.white.opacity(0.75))
                                 .cornerRadius(10)
                         }
+                        .buttonStyle(.plain)
+                        .disabled(email.isEmpty || password.isEmpty)
                     }
                     .padding(.horizontal)
                             
@@ -79,11 +86,17 @@ struct LoginView: View {
         }
         .font(.callout)
         .foregroundColor(.white)
+        .alert("Error", isPresented: $showingAlert) {
+            Button("Close", role: .cancel) { }
+        } message: {
+            Text(errorMessage)
+        }
     }
 }
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
+            .environmentObject(AuthViewModel())
     }
 }

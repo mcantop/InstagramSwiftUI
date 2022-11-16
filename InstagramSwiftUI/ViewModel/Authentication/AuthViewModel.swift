@@ -17,10 +17,11 @@ final class AuthViewModel: ObservableObject {
         userSession = Auth.auth().currentUser
     }
     
-    func login(withEmail email: String, password: String) {
+    func login(withEmail email: String, password: String, completion: @escaping(String?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("DEBUG: Error while logging user: \(error.localizedDescription)")
+                completion(error.localizedDescription)
             }
             
             guard let user = result?.user else { return }
@@ -33,15 +34,16 @@ final class AuthViewModel: ObservableObject {
         }
     }
     
-    func register(withEmail email: String, password: String, username: String, fullname: String, image: UIImage) {
-        ImageUploader.uploadImage(image: image) { imageUrl in
-            Auth.auth().createUser(withEmail: email, password: password) { result, error in
-                if let error = error {
-                    print("DEBUG: Error while registering user: \(error.localizedDescription)")
-                }
-                
-                guard let user = result?.user else { return }
-                
+    func register(withEmail email: String, password: String, username: String, fullname: String, image: UIImage, completion: @escaping(String?) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("DEBUG: Error while registering user: \(error.localizedDescription)")
+                completion(error.localizedDescription)
+            }
+            
+            guard let user = result?.user else { return }
+            
+            ImageUploader.uploadImage(image: image) { imageUrl in
                 let data = ["uid": user.uid,
                             "email": email,
                             "username": username,
@@ -50,9 +52,11 @@ final class AuthViewModel: ObservableObject {
                 
                 Firestore.firestore().collection("users").document(user.uid)
                     .setData(data) { _ in
-                        self.userSession = user
+                        withAnimation {
+                            self.userSession = user
+                        }
                         print("DEBUG: Successfully registered a new user!")
-                    }                
+                    }
             }
         }
     }
