@@ -10,11 +10,13 @@ import Firebase
 
 final class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
+    @Published var currentUser: User?
     
     static let shared = AuthViewModel()
     
     init() {
         userSession = Auth.auth().currentUser
+        fetchCurrentUser()
     }
     
     func login(withEmail email: String, password: String, completion: @escaping(String?) -> Void) {
@@ -26,9 +28,11 @@ final class AuthViewModel: ObservableObject {
             
             guard let user = result?.user else { return }
             
-            withAnimation(.easeInOut) {
+            withAnimation(.easeInOut(duration: 0.5)) {
                 self.userSession = user
             }
+            
+            self.fetchCurrentUser()
             
             print("DEBUG: Successfully logged a new user!")
         }
@@ -50,11 +54,14 @@ final class AuthViewModel: ObservableObject {
                             "fullname": fullname,
                             "profileImageUrl": imageUrl]
                 
-                Firestore.firestore().collection("users").document(user.uid)
+                COLLECTION_USERS.document(user.uid)
                     .setData(data) { _ in
                         withAnimation {
                             self.userSession = user
                         }
+                        
+                        self.fetchCurrentUser()
+                        
                         print("DEBUG: Successfully registered a new user!")
                     }
             }
@@ -71,7 +78,18 @@ final class AuthViewModel: ObservableObject {
         print("DEBUG: Reset password.")
     }
     
-    func fetchUser() {
-        print("DEBUG: Fetch user.")
+    func fetchCurrentUser() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        COLLECTION_USERS.document(uid)
+            .getDocument { snapshot, _ in
+                guard let user = try? snapshot?.data(as: User.self) else { return }
+                                
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    self.currentUser = user
+                }
+                
+                print("DEBUG: Current username is \(user.username) with \(user.email) address.")
+            }
     }
 }

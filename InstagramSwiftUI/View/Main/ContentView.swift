@@ -14,8 +14,12 @@ struct ContentView: View {
         Group {
             if viewModel.userSession == nil {
                 LoginView()
+                    .animation(.easeInOut, value: 1)
+                    .transition(.move(edge: .bottom))
             } else {
-                MainTabView()
+                if let user = viewModel.currentUser {
+                    MainTabView(user: user)
+                }
             }
         }
     }

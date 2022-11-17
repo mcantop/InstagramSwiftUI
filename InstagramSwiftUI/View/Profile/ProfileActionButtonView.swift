@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileActionButtonView: View {
-    var isCurrentUser = false
+    var isCurrentUser: Bool
     var isFollowed = false
     
     var body: some View {
@@ -33,8 +33,8 @@ struct ProfileActionButtonView: View {
                     Text(isFollowed ? "Following" : "Follow")
                         .padding(.vertical)
                         .frame(maxWidth: .infinity, maxHeight: 40)
-                        .foregroundColor(isFollowed ? .black : .white)
-                        .background(isFollowed ? .white : .blue)
+                        .foregroundColor(isFollowed ? Color("TextColor") : .white)
+                        .background(isFollowed ? Color("BackgroundColo") : .blue)
                         .fontWeight(.semibold)
                         .cornerRadius(isFollowed ? 0 : 10)
                         .overlay(RoundedRectangle(cornerRadius: isFollowed ? 3 : 10).stroke(Color.gray, lineWidth: isFollowed ? 1 : 0))
@@ -46,7 +46,7 @@ struct ProfileActionButtonView: View {
                     Text("Message")
                         .padding(.vertical)
                         .frame(maxWidth: .infinity, maxHeight: 40)
-                        .foregroundColor(.black)
+                        .foregroundColor(Color("TextColor"))
                         .fontWeight(.semibold)
                         .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color.gray, lineWidth: 1))
                 }
@@ -59,6 +59,6 @@ struct ProfileActionButtonView: View {
 
 struct ProfileActionButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileActionButtonView()
+        ProfileActionButtonView(isCurrentUser: false)
     }
 }

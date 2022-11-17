@@ -27,7 +27,7 @@ struct UploadPostView: View {
                         .renderingMode(.template)
                         .scaledToFit()
                         .frame(maxWidth: .infinity, maxHeight: 180)
-                        .foregroundColor(.black)
+                        .foregroundColor(Color("TextColor"))
                 }
             }
             .onChange(of: viewModel.selectedItem) { newItem in
@@ -63,7 +63,7 @@ struct UploadPostView: View {
                     Text("Remove Draft")
                         .padding(.vertical)
                         .frame(maxWidth: .infinity, maxHeight: 50)
-                        .foregroundColor(.black)
+                        .foregroundColor(Color("TextColor"))
                         .fontWeight(.semibold)
                         .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color.gray, lineWidth: 1))
                 }

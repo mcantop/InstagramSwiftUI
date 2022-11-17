@@ -36,7 +36,7 @@ struct SearchBar: View {
                     UIApplication.shared.endEditing()
                     withAnimation { isEditing = false }
                 }
-                .foregroundColor(.black)
+                .foregroundColor(Color("TextColor"))
                 .padding(.horizontal, 8)
                 .transition(.move(edge: .trailing))
             }

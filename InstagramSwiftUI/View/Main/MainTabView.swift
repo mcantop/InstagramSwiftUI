@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainTabView: View {
+    let user: User
+    
     var body: some View {
         NavigationStack {
             TabView {
@@ -35,7 +37,7 @@ struct MainTabView: View {
                             .environment(\.symbolVariants, .none)
                     }
                 
-                ProfileView()
+                ProfileView(user: user)
                     .tabItem {
                         Image(systemName: "person.crop.circle")
                             .environment(\.symbolVariants, .none)
@@ -43,7 +45,7 @@ struct MainTabView: View {
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.inline)
-            .accentColor(.black)
+            .accentColor(Color("TextColor"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -52,7 +54,7 @@ struct MainTabView: View {
                         }
                     } label: {
                         Image(systemName: "door.left.hand.open")
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("TextColor"))
                     }
                 }
             }
@@ -62,6 +64,6 @@ struct MainTabView: View {
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView()
+        MainTabView(user: User(email: "future@mail.com", username: "future", fullname: "Future PLUTO Hendrix", profileImageUrl: "https://firebasestorage.googleapis.com:443/v0/b/instagramswiftui-ec865.appspot.com/o/profile_images%2FF7482075-3043-41BE-8583-9C1181944CF0?alt=media&token=5fd8733f-ad4c-4f15-95d1-bc5c865d1541"))
     }
 }

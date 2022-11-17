@@ -64,7 +64,7 @@ struct FeedCell: View {
                             .font(.system(size: 20))
                     }
                 }
-                .foregroundColor(.black)
+                .foregroundColor(Color("TextColor"))
                 .padding(.top, 4)
                 .padding(.bottom, 4)
                 

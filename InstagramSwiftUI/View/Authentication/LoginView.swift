@@ -41,7 +41,7 @@ struct LoginView: View {
                         .padding(.bottom, 16)
                         
                         Button {
-                            viewModel.login()
+                                viewModel.login()
                         } label: {
                             Text("Log In")
                                 .frame(maxWidth: .infinity, maxHeight: 20)
