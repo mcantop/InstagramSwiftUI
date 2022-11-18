@@ -8,6 +8,14 @@
 import Firebase
 
 struct UserService {
+    static func fetchAllUsers(completion: @escaping([User]) -> Void) {
+        COLLECTION_USERS.getDocuments { snapshot, _ in
+            guard let documents = snapshot?.documents else { return }
+                        
+            completion(documents.compactMap { try? $0.data(as: User.self) })
+            }
+    }
+    
     static func follow(uid: String, completion: @escaping() -> Void) {
         guard let currentUid = AuthViewModel.shared.userSession?.uid else { return }
         

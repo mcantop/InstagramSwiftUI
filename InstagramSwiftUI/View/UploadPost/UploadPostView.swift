@@ -9,7 +9,9 @@ import SwiftUI
 import PhotosUI
 
 struct UploadPostView: View {
+    @Binding var selectedIndex: Int
     @StateObject var viewModel = UploadPostViewModel()
+    @State private var showingAlert = false
     
     var body: some View {
         VStack(spacing: 16) {
@@ -41,12 +43,18 @@ struct UploadPostView: View {
             }
             
             if viewModel.selectedImageData != nil {
-                TextField("Enter your caption...", text: $viewModel.captionText)
+                TextField("Enter your caption...", text: $viewModel.captionText, axis: .vertical)
+                    .lineLimit(10)
                 
                 Spacer()
                 
                 Button {
-                    
+                    if let selectedImageData = viewModel.selectedImageData,
+                       let uiImage = UIImage(data: selectedImageData) {
+                        viewModel.uploadPost(caption: viewModel.captionText, image: uiImage) {
+                            showingAlert.toggle()
+                        }
+                    }
                 } label: {
                     Text("Post")
                         .fontWeight(.semibold)
@@ -87,11 +95,21 @@ struct UploadPostView: View {
             }
         }
         .padding()
+        .alert("Success!", isPresented: $showingAlert) {
+            Button("Awesome!") {
+                withAnimation(.easeInOut) {
+                    viewModel.removeDraft()
+                    selectedIndex = 0
+                }
+            }
+        } message: {
+            Text("Uploaded new post successfully! Hooray 🥳")
+        }
     }
 }
 
 struct UploadPostView_Previews: PreviewProvider {
     static var previews: some View {
-        UploadPostView()
+        UploadPostView(selectedIndex: .constant(0))
     }
 }

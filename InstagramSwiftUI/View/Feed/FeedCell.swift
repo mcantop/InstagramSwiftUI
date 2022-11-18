@@ -6,26 +6,29 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct FeedCell: View {
+    let post: Post
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // MARK: - User info
             HStack {
-                Image("FutureProfile")
+                KFImage(URL(string: post.ownerImageUrl))
                     .resizable()
                     .scaledToFill()
                     .frame(width: 36, height: 36)
                     .clipped()
                     .cornerRadius(18)
                 
-                Text("future")
+                Text(post.ownerUsername)
                     .fontWeight(.semibold)
             }
             .padding(.horizontal, 8)
             
             // MARK: - Post Image
-            Image("FuturePost")
+            KFImage(URL(string: post.imageUrl))
                 .resizable()
                 .scaledToFill()
                 .frame(maxHeight: 440)
@@ -71,15 +74,15 @@ struct FeedCell: View {
                 // MARK: - Likes
                 Text("Liked by") +
                 Text(" ") +
-                Text("1 084 383").fontWeight(.semibold) +
+                Text("\(post.likes)").fontWeight(.semibold) +
                 Text(" ") +
                 Text("people")
                 
                 // MARK: - Caption
                 HStack {
-                    Text("future").fontWeight(.semibold) +
+                    Text(post.ownerUsername).fontWeight(.semibold) +
                     Text(" ") +
-                    Text("Winning without u.")
+                    Text(post.caption)
                 }
                 
                 // MARK: - Timestamp
@@ -93,8 +96,8 @@ struct FeedCell: View {
     }
 }
 
-struct FeedCell_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedCell()
-    }
-}
+//struct FeedCell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FeedCell(post: P)
+//    }
+//}

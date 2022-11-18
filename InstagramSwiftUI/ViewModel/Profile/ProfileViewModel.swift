@@ -39,7 +39,6 @@ final class ProfileViewModel: ObservableObject {
         
         UserService.checkFollow(uid: uid) { isFollowed in
             self.user.isFollowed = isFollowed
-            print("DEBUG: User is \(isFollowed ? "followed" : "not followed")")
         }
     }
 }

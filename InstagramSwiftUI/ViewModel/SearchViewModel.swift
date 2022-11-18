@@ -15,11 +15,9 @@ final class SearchViewModel: ObservableObject {
     }
     
     func fetchAllUsers() {
-        COLLECTION_USERS.getDocuments { snapshot, _ in
-            guard let documents = snapshot?.documents else { return }
-            
-            self.users = documents.compactMap { try? $0.data(as: User.self) }
-            }
+        UserService.fetchAllUsers { users in
+            self.users = users
+        }
     }
     
     func filterUsers(_ query: String) -> [User] {
