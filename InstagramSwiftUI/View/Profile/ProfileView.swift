@@ -24,6 +24,7 @@ struct ProfileView: View {
                 PostGridView(config: .profile(user.id ?? ""))
             }
         }
+        .navigationTitle(user.username)
     }
 }
 

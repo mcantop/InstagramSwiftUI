@@ -32,6 +32,17 @@
 		523500312928300C003EFC69 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523500302928300C003EFC69 /* FeedViewModel.swift */; };
 		5235003329283115003EFC69 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235003229283115003EFC69 /* PostService.swift */; };
 		5235003529283B4B003EFC69 /* PostGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235003429283B4B003EFC69 /* PostGridViewModel.swift */; };
+		523500372928411E003EFC69 /* FeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523500362928411E003EFC69 /* FeedCellViewModel.swift */; };
+		5235003929285779003EFC69 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235003829285779003EFC69 /* CommentModel.swift */; };
+		5235003F292857A7003EFC69 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235003E292857A7003EFC69 /* CommentViewModel.swift */; };
+		523500412928580A003EFC69 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523500402928580A003EFC69 /* CommentView.swift */; };
+		5235004329285811003EFC69 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235004229285811003EFC69 /* CommentCell.swift */; };
+		5235004529285C4B003EFC69 /* CustomInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235004429285C4B003EFC69 /* CustomInputView.swift */; };
+		5235004729286B8B003EFC69 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235004629286B8B003EFC69 /* CommentService.swift */; };
+		523500492929526C003EFC69 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523500482929526C003EFC69 /* NotificationModel.swift */; };
+		5235004B29295509003EFC69 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235004A29295509003EFC69 /* NotificationsViewModel.swift */; };
+		5235004D2929556A003EFC69 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235004C2929556A003EFC69 /* NotificationService.swift */; };
+		5235004F29296F2C003EFC69 /* NotificationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235004E29296F2C003EFC69 /* NotificationCellViewModel.swift */; };
 		523A52512922CEA7001F0668 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523A52502922CEA7001F0668 /* SearchBar.swift */; };
 		523A52532922D093001F0668 /* PostGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523A52522922D093001F0668 /* PostGridView.swift */; };
 		52590C9129208D2F00469759 /* InstagramSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52590C9029208D2F00469759 /* InstagramSwiftUIApp.swift */; };
@@ -75,6 +86,17 @@
 		523500302928300C003EFC69 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		5235003229283115003EFC69 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		5235003429283B4B003EFC69 /* PostGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGridViewModel.swift; sourceTree = "<group>"; };
+		523500362928411E003EFC69 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
+		5235003829285779003EFC69 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
+		5235003E292857A7003EFC69 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		523500402928580A003EFC69 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		5235004229285811003EFC69 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		5235004429285C4B003EFC69 /* CustomInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputView.swift; sourceTree = "<group>"; };
+		5235004629286B8B003EFC69 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
+		523500482929526C003EFC69 /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
+		5235004A29295509003EFC69 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
+		5235004C2929556A003EFC69 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		5235004E29296F2C003EFC69 /* NotificationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCellViewModel.swift; sourceTree = "<group>"; };
 		523A52502922CEA7001F0668 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		523A52522922D093001F0668 /* PostGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGridView.swift; sourceTree = "<group>"; };
 		52590C8D29208D2F00469759 /* InstagramSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,6 +193,8 @@
 				52E37495292484040032E2C9 /* ImageUploader.swift */,
 				5235002C292608B8003EFC69 /* UserService.swift */,
 				5235003229283115003EFC69 /* PostService.swift */,
+				5235004629286B8B003EFC69 /* CommentService.swift */,
+				5235004C2929556A003EFC69 /* NotificationService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -185,6 +209,7 @@
 				523500282925DBE5003EFC69 /* SearchViewModel.swift */,
 				5235001529255758003EFC69 /* UploadPostViewModel.swift */,
 				5235003429283B4B003EFC69 /* PostGridViewModel.swift */,
+				5235003E292857A7003EFC69 /* CommentViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -210,6 +235,8 @@
 			children = (
 				523500192925D82E003EFC69 /* UserModel.swift */,
 				5235002E29282F45003EFC69 /* PostModel.swift */,
+				5235003829285779003EFC69 /* CommentModel.swift */,
+				523500482929526C003EFC69 /* NotificationModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -254,6 +281,8 @@
 		52AA1C37292277800022E143 /* Comments */ = {
 			isa = PBXGroup;
 			children = (
+				523500402928580A003EFC69 /* CommentView.swift */,
+				5235004229285811003EFC69 /* CommentCell.swift */,
 			);
 			path = Comments;
 			sourceTree = "<group>";
@@ -284,6 +313,7 @@
 				5200A2E72922D82100B4F00F /* UserCell.swift */,
 				5200A2E92922D83100B4F00F /* UserListView.swift */,
 				52E3747B29245C0F0032E2C9 /* CustomTextField.swift */,
+				5235004429285C4B003EFC69 /* CustomInputView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -301,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				523500302928300C003EFC69 /* FeedViewModel.swift */,
+				523500362928411E003EFC69 /* FeedCellViewModel.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -308,6 +339,8 @@
 		52AA1C3D292278130022E143 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				5235004A29295509003EFC69 /* NotificationsViewModel.swift */,
+				5235004E29296F2C003EFC69 /* NotificationCellViewModel.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -419,8 +452,10 @@
 				5235001629255758003EFC69 /* UploadPostViewModel.swift in Sources */,
 				5235001A2925D82E003EFC69 /* UserModel.swift in Sources */,
 				52AA1C43292278DB0022E143 /* FeedView.swift in Sources */,
+				5235004B29295509003EFC69 /* NotificationsViewModel.swift in Sources */,
 				52E37494292479F60032E2C9 /* ResetPasswordView.swift in Sources */,
 				523500292925DBE5003EFC69 /* SearchViewModel.swift in Sources */,
+				5235004F29296F2C003EFC69 /* NotificationCellViewModel.swift in Sources */,
 				523A52532922D093001F0668 /* PostGridView.swift in Sources */,
 				52E3747E292461DC0032E2C9 /* RegistrationView.swift in Sources */,
 				52AA1C47292279320022E143 /* UploadPostView.swift in Sources */,
@@ -429,26 +464,35 @@
 				52E3747C29245C0F0032E2C9 /* CustomTextField.swift in Sources */,
 				5235001329255529003EFC69 /* LoginViewModel.swift in Sources */,
 				5235002B292604EB003EFC69 /* ProfileViewModel.swift in Sources */,
+				5235004329285811003EFC69 /* CommentCell.swift in Sources */,
+				5235003F292857A7003EFC69 /* CommentViewModel.swift in Sources */,
 				5235001129255140003EFC69 /* RegistrationViewModel.swift in Sources */,
 				523500182925D6B0003EFC69 /* Constants.swift in Sources */,
+				523500412928580A003EFC69 /* CommentView.swift in Sources */,
+				5235004529285C4B003EFC69 /* CustomInputView.swift in Sources */,
 				52590C9329208D2F00469759 /* ContentView.swift in Sources */,
 				52590C9129208D2F00469759 /* InstagramSwiftUIApp.swift in Sources */,
 				523500312928300C003EFC69 /* FeedViewModel.swift in Sources */,
 				52AA1C45292279060022E143 /* SearchView.swift in Sources */,
 				5215B0D7292315B100F78872 /* ProfileHeaderView.swift in Sources */,
+				5235004729286B8B003EFC69 /* CommentService.swift in Sources */,
 				52AA1C41292278A40022E143 /* MainTabView.swift in Sources */,
+				523500372928411E003EFC69 /* FeedCellViewModel.swift in Sources */,
 				5215B0D929231DA200F78872 /* UserStatView.swift in Sources */,
 				5200A2EC2922DD9600B4F00F /* UIApplication+Extension.swift in Sources */,
 				5200A2E82922D82100B4F00F /* UserCell.swift in Sources */,
 				523A52512922CEA7001F0668 /* SearchBar.swift in Sources */,
 				52AA1C49292279480022E143 /* NotificationsView.swift in Sources */,
+				5235003929285779003EFC69 /* CommentModel.swift in Sources */,
 				52E37492292478F90032E2C9 /* AuthViewModel.swift in Sources */,
 				5215B0DB29231E8800F78872 /* ProfileActionButtonView.swift in Sources */,
 				52AA1C4D29227D8F0022E143 /* FeedCell.swift in Sources */,
 				5235003329283115003EFC69 /* PostService.swift in Sources */,
 				5235002D292608B8003EFC69 /* UserService.swift in Sources */,
 				52E3747A292454820032E2C9 /* LoginView.swift in Sources */,
+				5235004D2929556A003EFC69 /* NotificationService.swift in Sources */,
 				5200A2EE2922E11800B4F00F /* NotificationCell.swift in Sources */,
+				523500492929526C003EFC69 /* NotificationModel.swift in Sources */,
 				5200A2EA2922D83100B4F00F /* UserListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

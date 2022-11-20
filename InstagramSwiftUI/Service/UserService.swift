@@ -8,6 +8,16 @@
 import Firebase
 
 struct UserService {
+    static func fetchUser(forUid uid: String, completion: @escaping(User) -> Void) {
+        COLLECTION_USERS.document(uid)
+            .getDocument { snapshot, _ in
+                guard let snapshot = snapshot else { return }
+                guard let user = try? snapshot.data(as: User.self) else { return }
+                
+                completion(user)
+            }
+    }
+    
     static func fetchAllUsers(completion: @escaping([User]) -> Void) {
         COLLECTION_USERS.getDocuments { snapshot, _ in
             guard let documents = snapshot?.documents else { return }

@@ -20,7 +20,8 @@ final class ProfileViewModel: ObservableObject {
         
         UserService.follow(uid: uid) {
             self.user.isFollowed = true
-            print("DEBUG: Followed user with success!")
+            
+            NotificationService.uploadNotification(toReceivingUid: uid, type: .follow)
         }
     }
     
@@ -29,7 +30,6 @@ final class ProfileViewModel: ObservableObject {
         
         UserService.unfollow(uid: uid) {
             self.user.isFollowed = false
-            print("DEBUG: Unfollowed user with success!")
         }
     }
     

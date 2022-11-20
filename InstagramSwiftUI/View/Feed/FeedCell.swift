@@ -9,46 +9,61 @@ import SwiftUI
 import Kingfisher
 
 struct FeedCell: View {
-    let post: Post
+    @ObservedObject var viewModel: FeedCellViewModel
+    var isLiked: Bool { return viewModel.post.isLiked ?? false }
+    
+    init(viewModel: FeedCellViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // MARK: - User info
-            HStack {
-                KFImage(URL(string: post.ownerImageUrl))
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 36, height: 36)
-                    .clipped()
-                    .cornerRadius(18)
-                
-                Text(post.ownerUsername)
-                    .fontWeight(.semibold)
+            if let owner = viewModel.post.owner {
+                NavigationLink {
+                    ProfileView(user: owner)
+                } label: {
+                    // MARK: - User info
+                    HStack {
+                        KFImage(URL(string: viewModel.post.ownerImageUrl))
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 36, height: 36)
+                            .clipped()
+                            .cornerRadius(18)
+                        
+                        Text(viewModel.post.ownerUsername)
+                            .foregroundColor(Color("TextColor"))
+                            .fontWeight(.semibold)
+                    }
+                }
+                .padding(.horizontal, 8)
             }
-            .padding(.horizontal, 8)
             
             // MARK: - Post Image
-            KFImage(URL(string: post.imageUrl))
+            KFImage(URL(string: viewModel.post.imageUrl))
                 .resizable()
                 .scaledToFill()
-                .frame(maxHeight: 440)
+                .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: 440)
                 .clipped()
             
             VStack(alignment: .leading, spacing: 6) {
                 // MARK: - Action Buttons
                 HStack(spacing: 24) {
                     Button {
-                        print("DEBUG: Handle action handler..")
+                            isLiked ? viewModel.unlike() : viewModel.like()
                     } label: {
-                        Image(systemName: "heart")
+                        Image(systemName: isLiked ? "heart.fill" : "heart")
                             .resizable()
+                            .font(.system(size: 20))
+                            .foregroundColor(isLiked ? .red : Color("TextColor"))
                             .scaledToFill()
                             .frame(width: 20, height: 20)
-                            .font(.system(size: 20))
                     }
                     
-                    Button {
-                        print("DEBUG: Handle action handler..")
+                    NavigationLink {
+                        if let currentUser = viewModel.currentUser {
+                            CommentView(post: viewModel.post, currentUser: currentUser)
+                        }
                     } label: {
                         Image(systemName: "bubble.right")
                             .resizable()
@@ -56,6 +71,7 @@ struct FeedCell: View {
                             .frame(width: 20, height: 20)
                             .font(.system(size: 20))
                     }
+
                     
                     Button {
                         print("DEBUG: Handle action handler..")
@@ -74,15 +90,15 @@ struct FeedCell: View {
                 // MARK: - Likes
                 Text("Liked by") +
                 Text(" ") +
-                Text("\(post.likes)").fontWeight(.semibold) +
+                Text("\(viewModel.post.likes)").fontWeight(.semibold) +
                 Text(" ") +
-                Text("people")
+                Text(viewModel.likeString)
                 
                 // MARK: - Caption
                 HStack {
-                    Text(post.ownerUsername).fontWeight(.semibold) +
+                    Text(viewModel.post.ownerUsername).fontWeight(.semibold) +
                     Text(" ") +
-                    Text(post.caption)
+                    Text(viewModel.post.caption)
                 }
                 
                 // MARK: - Timestamp
