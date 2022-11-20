@@ -12,6 +12,8 @@ struct NotificationService {
     static func uploadNotification(toReceivingUid receivingUid: String, type: NotificationType, post: Post? = nil) {
         guard let userSending = AuthViewModel.shared.currentUser else { return }
         guard let userSendingId = userSending.id else { return }
+        // Do not send a notification to myself.
+        guard receivingUid != userSendingId else { return }
         
         var data: [String: Any] = ["uid": userSendingId,
                                    "timestamp": Timestamp(date: Date()),
@@ -30,6 +32,7 @@ struct NotificationService {
         guard let uid = AuthViewModel.shared.currentUser?.id else { return }
         
         COLLECTION_NOTIFICATIONS.document(uid).collection("user-notifications")
+            .order(by: "timestamp", descending: true)
             .getDocuments { snapshot, _ in
             guard let documents = snapshot?.documents else { return }
                             

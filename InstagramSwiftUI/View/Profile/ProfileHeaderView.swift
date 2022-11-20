@@ -23,9 +23,9 @@ struct ProfileHeaderView: View {
                 Spacer()
                 
                 HStack(spacing: 16) {
-                    UserStatView(number: 3, text: "Posts")
-                    UserStatView(number: 9183960, text: "Followers")
-                    UserStatView(number: 0, text: "Following")
+                    UserStatView(number: viewModel.user.stats?.posts ?? 0, text: "Posts")
+                    UserStatView(number: viewModel.user.stats?.followers ?? 0, text: "Followers")
+                    UserStatView(number: viewModel.user.stats?.following ?? 0, text: "Following")
                 }
             }
             .padding(.horizontal)
@@ -35,7 +35,7 @@ struct ProfileHeaderView: View {
                 .padding(.horizontal)
                 .padding(.top, 8)
             
-            Text("I Never Liked You out now")
+            Text(viewModel.user.bio ?? "")
                 .padding(.horizontal)
             
             ProfileActionButtonView(viewModel: viewModel)

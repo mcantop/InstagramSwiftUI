@@ -18,6 +18,14 @@ final class NotificationCellViewModel: ObservableObject {
         fetchNotificationPost()
     }
     
+    var timestampString: String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.second, .minute, .hour, .day, .weekOfMonth]
+        formatter.maximumUnitCount = 1
+        formatter.unitsStyle = .abbreviated
+        return formatter.string(from: notification.timestamp.dateValue(), to: Date()) ?? ""
+    }
+    
     func follow() {
         UserService.follow(uid: notification.uid) {
             self.notification.isFollowed = true

@@ -9,11 +9,15 @@ import SwiftUI
 import Kingfisher
 
 struct CommentCell: View {
-    let comment: Comment
+    @ObservedObject var viewModel: CommentCellViewModel
     
+    init(comment: Comment) {
+        self.viewModel = CommentCellViewModel(comment: comment)
+    }
+        
     var body: some View {
         HStack(alignment: .top) {
-            KFImage(URL(string: comment.profileImageUrl))
+            KFImage(URL(string: viewModel.comment.profileImageUrl))
                 .resizable()
                 .scaledToFill()
                 .frame(width: 36, height: 36)
@@ -21,15 +25,15 @@ struct CommentCell: View {
             
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text(comment.username).fontWeight(.semibold) +
+                    Text(viewModel.comment.username).fontWeight(.semibold) +
                     Text(" ") +
-                    Text(comment.commentText)
+                    Text(viewModel.comment.commentText)
                 }.lineSpacing(-10)
                 
                 HStack {
-                    Text("2m")
+                    Text(viewModel.timestampString)
                     
-                    Text("\(comment.likes) likes")
+                    Text("\(viewModel.comment.likes) likes")
                 }
                 .font(.caption)
                 .foregroundColor(.gray)

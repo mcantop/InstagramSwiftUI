@@ -10,7 +10,7 @@ import PhotosUI
 
 struct UploadPostView: View {
     @Binding var selectedIndex: Int
-    @StateObject var viewModel = UploadPostViewModel()
+    @ObservedObject var viewModel = UploadPostViewModel()
     @State private var showingAlert = false
     
     var body: some View {

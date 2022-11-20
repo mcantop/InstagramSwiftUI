@@ -20,7 +20,7 @@ struct FeedCell: View {
         VStack(alignment: .leading, spacing: 8) {
             if let owner = viewModel.post.owner {
                 NavigationLink {
-                    ProfileView(user: owner)
+                    LazyView(ProfileView(user: owner))
                 } label: {
                     // MARK: - User info
                     HStack {
@@ -102,7 +102,7 @@ struct FeedCell: View {
                 }
                 
                 // MARK: - Timestamp
-                Text("19w")
+                Text(viewModel.timestampString)
                     .font(.footnote)
                     .foregroundColor(.gray)
             }

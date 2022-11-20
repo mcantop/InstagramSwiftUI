@@ -16,7 +16,7 @@ struct CustomTextField: View {
         ZStack(alignment: .leading) {
                 if value.isEmpty {
                     Text(placeholder)
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(Color("TextColor").opacity(0.5))
                 }
             if isSecure {
                 SecureField("", text: $value)
@@ -26,9 +26,8 @@ struct CustomTextField: View {
         }
         .frame(height: 20)
         .padding()
-        .background(.white.opacity(0.1))
+        .background(Color("TextColor").opacity(0.1))
         .cornerRadius(10)
-//        .padding(.horizontal)
     }
 }
 

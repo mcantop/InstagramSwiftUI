@@ -29,10 +29,11 @@ struct NotificationCell: View {
                         .clipShape(Circle())
                     
                     HStack {
-                        Text(viewModel.notification.user?.username ?? "")
-                            .fontWeight(.semibold) +
-                        
-                        Text(viewModel.notification.type.message)
+                        Text(viewModel.notification.user?.username ?? "").fontWeight(.semibold) +
+                        Text(viewModel.notification.type.message) +
+                        Text(" ") +
+                        Text(viewModel.timestampString)
+                            .foregroundColor(.gray)
                         
                         Spacer()
                     }

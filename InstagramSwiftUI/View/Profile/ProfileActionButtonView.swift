@@ -9,12 +9,13 @@ import SwiftUI
 
 struct ProfileActionButtonView: View {
     @ObservedObject var viewModel: ProfileViewModel
-    var isFollowed: Bool { return viewModel.user.isFollowed ?? false }
+
+    private var isFollowed: Bool { return viewModel.user.isFollowed ?? false }
     
     var body: some View {
         if viewModel.user.isCurrentUser {
             Button {
-                
+                viewModel.showModal.toggle()
             } label: {
                 Text("Edit Profile")
                     .padding(.vertical)
@@ -25,6 +26,9 @@ struct ProfileActionButtonView: View {
                     .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color.gray, lineWidth: 1))
                     .padding(.horizontal)
                     .padding(.vertical, 8)
+            }
+            .fullScreenCover(isPresented: $viewModel.showModal) {
+                EditProfileView(user: $viewModel.user)
             }
         } else {
             HStack {

@@ -60,4 +60,34 @@ struct UserService {
                 completion(isFollowed)
             }
     }
+    
+    static func fetchUserStats(forUid uid: String, completion: @escaping(UserStats) -> Void) {
+        COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid)
+            .getDocuments { snapshot, _ in
+                guard let posts = snapshot?.documents.count else { return }
+                
+                COLLECTION_FOLLOWERS.document(uid).collection("user-followers")
+                    .getDocuments { snapshot, _ in
+                        guard let followers = snapshot?.documents.count else { return }
+                        
+                        COLLECTION_FOLLOWING.document(uid).collection("user-following")
+                            .getDocuments { snapshot, _ in
+                                guard let following = snapshot?.documents.count else { return }
+                                
+                                let stats = UserStats(posts: posts, followers: followers, following: following)
+                                
+                                print(stats)
+                                
+                                completion(stats)
+                            }
+                    }
+            }
+    }
+    
+    static func editUserData(forUid uid: String, bio: String, completion: @escaping() -> Void) {
+        COLLECTION_USERS.document(uid)
+            .updateData(["bio": bio]) { _ in
+                completion()
+            }
+    }
 }

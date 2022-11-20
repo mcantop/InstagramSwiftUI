@@ -31,7 +31,7 @@ final class PostGridViewModel: ObservableObject {
     }
     
     func fetchAllPosts() {
-        PostService.fetchAllPosts { posts in
+        PostService.fetchExplorePosts { posts in
             self.posts = posts
         }
     }

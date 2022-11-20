@@ -18,7 +18,7 @@ struct PostService {
             }
     }
     
-    static func fetchAllPosts(completion: @escaping([Post]) -> Void) {
+    static func fetchExplorePosts(completion: @escaping([Post]) -> Void) {
         COLLECTION_POSTS
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else { return }
@@ -31,8 +31,8 @@ struct PostService {
         COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid)
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else { return }
-                
-                completion(documents.compactMap { try? $0.data(as: Post.self) } )
+                let posts = documents.compactMap { try? $0.data(as: Post.self) }
+                completion(posts.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() }))
             }
     }
     
