@@ -27,14 +27,14 @@ struct SearchBar: View {
                     }
                 )
                 .onTapGesture {
-                    withAnimation { isEditing = true }
+                    withAnimation(.easeInOut(duration: 0.2)) { isEditing = true }
                 }
             
             if isEditing {
                 Button("Cancel") {
                     text = ""
                     UIApplication.shared.endEditing()
-                    withAnimation { isEditing = false }
+                    withAnimation(.easeInOut(duration: 0.2)) { isEditing = false }
                 }
                 .foregroundColor(Color("TextColor"))
                 .padding(.horizontal, 8)

@@ -11,11 +11,27 @@ struct NotificationsView: View {
     @ObservedObject var viewModel = NotificationsViewModel()
     
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 16) {
-                ForEach(viewModel.notifications) { notification in
-                    NotificationCell(viewModel: NotificationCellViewModel(notification: notification))
+        ZStack {
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach(viewModel.notifications) { notification in
+                        NotificationCell(viewModel: NotificationCellViewModel(notification: notification))
+                    }
                 }
+            }
+            .refreshable {
+                viewModel.fetchUserNotifications()
+            }
+            
+            // MARK: - Navigation & Tab bar is sometimes transparent, so I make sure that there is always background behind those elements.
+            VStack {
+                Rectangle()
+                    .fill(Color("BackgroundColor"))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 90)
+                    .edgesIgnoringSafeArea(.top)
+                
+                Spacer()
             }
         }
     }

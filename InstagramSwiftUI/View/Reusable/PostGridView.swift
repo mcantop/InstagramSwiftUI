@@ -21,27 +21,29 @@ struct PostGridView: View {
     }
     
     var body: some View {
-        LazyVGrid(columns: items, spacing: 1) {
-            ForEach(viewModel.posts) { post in
-                NavigationLink {
-                    VStack {
-                        FeedCell(viewModel: FeedCellViewModel(post: post))
-                        
-                        Spacer()
+        ScrollView {
+            LazyVGrid(columns: items, spacing: 1) {
+                ForEach(viewModel.posts) { post in
+                    NavigationLink {
+                        VStack {
+                            FeedCell(viewModel: FeedCellViewModel(post: post))
+                            
+                            Spacer()
+                        }
+                    } label: {
+                            KFImage(URL(string: post.imageUrl))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: width, height: width)
+                                .clipped()
                     }
-                } label: {
-                    withAnimation(.easeInOut) {
-                        KFImage(URL(string: post.imageUrl))
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: width, height: width)
-                            .clipped()
-                    }
+                    
                 }
-
             }
         }
-        .animation(.easeInOut, value: viewModel.posts)
+        .refreshable {
+            viewModel.fetchAllPosts()
+        }
     }
 }
 

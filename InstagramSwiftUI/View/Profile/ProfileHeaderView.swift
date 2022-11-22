@@ -35,11 +35,12 @@ struct ProfileHeaderView: View {
                 .padding(.horizontal)
                 .padding(.top, 8)
             
-            Text(viewModel.user.bio ?? "")
-                .padding(.horizontal)
+            if let bio = viewModel.user.bio {
+                Text(bio)
+                    .padding(.horizontal)
+            }
             
             ProfileActionButtonView(viewModel: viewModel)
-
         }
         .font(.callout)
     }

@@ -5,7 +5,7 @@
 //  Created by Maciej on 18/11/2022.
 //
 
-import Foundation
+import SwiftUI
 
 enum PostGridConfig {
     case explore
@@ -32,13 +32,17 @@ final class PostGridViewModel: ObservableObject {
     
     func fetchAllPosts() {
         PostService.fetchExplorePosts { posts in
-            self.posts = posts
+            withAnimation(.default) {
+                self.posts = posts.shuffled()
+            }
         }
     }
     
     func fetchUserPosts(forUid uid: String) {
         PostService.fetchUserPosts(forUid: uid) { posts in
-            self.posts = posts
+            withAnimation(.default) {
+                self.posts = posts
+            }
         }
     }
 }

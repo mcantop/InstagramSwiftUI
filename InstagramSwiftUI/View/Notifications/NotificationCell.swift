@@ -20,7 +20,7 @@ struct NotificationCell: View {
         HStack(spacing: 12) {
             if let user = viewModel.notification.user {
                 NavigationLink {
-                    ProfileView(user: user)
+                    LazyView(ProfileView(user: user))
                 } label: {
                     KFImage(URL(string: viewModel.notification.user?.profileImageUrl ?? ""))
                         .resizable()
@@ -38,39 +38,37 @@ struct NotificationCell: View {
                         Spacer()
                     }
                     .multilineTextAlignment(.leading)
-                }
-            }
-
-                        
-            if viewModel.notification.type != .follow {
-                if let post = viewModel.notification.post {
-                    NavigationLink {
-                        VStack {
-                            FeedCell(viewModel: FeedCellViewModel(post: post))
-                            
-                            Spacer()
+                    
+                    if viewModel.notification.type != .follow {
+                        if let post = viewModel.notification.post {
+                            NavigationLink {
+                                VStack {
+                                    FeedCell(viewModel: FeedCellViewModel(post: post))
+                                    
+                                    Spacer()
+                                }
+                            } label: {
+                                KFImage(URL(string: viewModel.notification.post?.imageUrl ?? ""))
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 40, height: 40)
+                                    .clipped()
+                            }
                         }
-                    } label: {
-                        KFImage(URL(string: viewModel.notification.post?.imageUrl ?? ""))
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 40, height: 40)
-                            .clipped()
+                    } else {
+                            Button {
+                                isFollowed ? viewModel.unfollow() : viewModel.follow()
+                            } label: {
+                                Text(isFollowed ? "Following" : "Follow")
+                                    .frame(width: 100, height: 40)
+                                    .foregroundColor(isFollowed ? Color("TextColor") : .white)
+                                    .background(isFollowed ? Color("BackgroundColor") : .blue)
+                                    .fontWeight(.semibold)
+                                    .cornerRadius(isFollowed ? 0 : 10)
+                                    .overlay(RoundedRectangle(cornerRadius: isFollowed ? 3 : 10).stroke(Color.gray, lineWidth: isFollowed ? 1 : 0))
+                            }
                     }
                 }
-            } else {
-                Button {
-                    isFollowed ? viewModel.unfollow() : viewModel.follow()
-                } label: {
-                    Text(isFollowed ? "Following" : "Follow")
-                        .frame(width: 100, height: 40)
-                        .foregroundColor(isFollowed ? Color("TextColor") : .white)
-                        .background(isFollowed ? Color("BackgroundColor") : .blue)
-                        .fontWeight(.semibold)
-                        .cornerRadius(isFollowed ? 0 : 10)
-                        .overlay(RoundedRectangle(cornerRadius: isFollowed ? 3 : 10).stroke(Color.gray, lineWidth: isFollowed ? 1 : 0))
-                }
-
             }
         }
         .font(.callout)

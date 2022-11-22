@@ -5,7 +5,7 @@
 //  Created by Maciej on 19/11/2022.
 //
 
-import Foundation
+import SwiftUI
 
 final class NotificationsViewModel: ObservableObject {
     @Published var notifications = [Notification]()
@@ -16,7 +16,9 @@ final class NotificationsViewModel: ObservableObject {
     
     func fetchUserNotifications() {
         NotificationService.fetchUserNotifications { notifications in
-            self.notifications = notifications
+            withAnimation(.default) {
+                self.notifications = notifications
+            }
         }
     }
 }

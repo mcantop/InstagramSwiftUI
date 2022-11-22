@@ -8,23 +8,35 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @ObservedObject var viewModel: ProfileViewModel
     let user: User
     
     init(user: User) {
         self.user = user
-        self.viewModel = ProfileViewModel(user: user)
     }
     
     var body: some View {
-        ScrollView {
-            VStack {
-                ProfileHeaderView(viewModel: viewModel)
-                
-                PostGridView(config: .profile(user.id ?? ""))
+        ZStack {
+            ScrollView {
+                VStack {
+                    ProfileHeaderView(viewModel: ProfileViewModel(user: user))
+                    
+                    PostGridView(config: .profile(user.id ?? ""))
+                }
             }
+            
+            // MARK: - Navigation & Tab bar is sometimes transparent, so I make sure that there is always background behind those elements.
+            VStack {
+                Rectangle()
+                    .fill(Color("BackgroundColor"))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 90)
+                    .edgesIgnoringSafeArea(.top)
+                
+                Spacer()
+            }
+            
+            .navigationTitle(user.username)
         }
-        .navigationTitle(user.username)
     }
 }
 

@@ -15,7 +15,7 @@ final class EditProfileViewModel: ObservableObject {
     
     init(user: User) {
         self.user = user
-        self._bio = State
+        self.bio = user.bio ?? ""
     }
     
     func editUserData(completion: @escaping() -> Void) {

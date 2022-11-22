@@ -5,7 +5,7 @@
 //  Created by Maciej on 19/11/2022.
 //
 
-import Foundation
+import SwiftUI
 
 final class NotificationCellViewModel: ObservableObject {
     @Published var notification: Notification
@@ -15,7 +15,6 @@ final class NotificationCellViewModel: ObservableObject {
         
         fetchNotificationUser()
         checkFollow()
-        fetchNotificationPost()
     }
     
     var timestampString: String {
@@ -52,13 +51,18 @@ final class NotificationCellViewModel: ObservableObject {
         guard let postId = notification.postId else { return }
         
         PostService.fetchPost(forPostId: postId) { post in
-            self.notification.post = post
+//            withAnimation {
+                self.notification.post = post
+//            }
         }
     }
     
     func fetchNotificationUser() {
         UserService.fetchUser(forUid: notification.uid) { user in
-            self.notification.user = user
+            withAnimation(.default) {
+                self.notification.user = user
+                self.fetchNotificationPost()
+            }
         }
     }
 }

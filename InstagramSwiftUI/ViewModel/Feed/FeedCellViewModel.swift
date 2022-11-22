@@ -9,6 +9,7 @@
 import SwiftUI
 
 final class FeedCellViewModel: ObservableObject {
+    @Published var comments = 0
     @Published var post: Post
     var currentUser: User?
     
@@ -20,7 +21,7 @@ final class FeedCellViewModel: ObservableObject {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.second, .minute, .hour, .day, .weekOfMonth]
         formatter.maximumUnitCount = 1
-        formatter.unitsStyle = .abbreviated
+        formatter.unitsStyle = .short
         return formatter.string(from: post.timestamp.dateValue(), to: Date()) ?? ""
     }
     
@@ -29,6 +30,7 @@ final class FeedCellViewModel: ObservableObject {
         checkIfUserLikedPosts()
         fetchCurrentUser()
         fetchPostOwner()
+        fetchPostComments()
     }
     
     func checkIfUserLikedPosts() {
@@ -68,6 +70,12 @@ final class FeedCellViewModel: ObservableObject {
     func fetchPostOwner() {        
         UserService.fetchUser(forUid: post.ownerUid) { owner in
             self.post.owner = owner
+        }
+    }
+    
+    func fetchPostComments() {
+        CommentService.fetchComments(forPost: post) { comments in
+            self.comments = comments.count
         }
     }
 }

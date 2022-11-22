@@ -11,6 +11,13 @@ struct ContentView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State var selectedIndex = 0
     
+//    init() {
+//        let appearance = UINavigationBarAppearance()
+//        appearance.shadowColor = .clear
+//        UINavigationBar.appearance().standardAppearance = appearance
+//        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+//    }
+    
     var body: some View {
         Group {
             if viewModel.userSession == nil {
